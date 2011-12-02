@@ -112,19 +112,7 @@ NodePairs find_non_zero_delta_pairs(
    // as we do them pair-by-pair; we can't pre-do it.
    NodePairs node_pairs;
 
-   //cout << "list1" << endl;
-   //for (Sentence::Nodes::const_iterator i1 = t1.grouped_nodes().begin(),
-   //        end1 = t1.grouped_nodes().end(); i1 != end1; ++i1) {
-   //   cout << (*i1)->id_string() << endl;
-   //}
-   //cout << "list2" << endl;
-   //for (Sentence::Nodes::const_iterator i2 = t2.grouped_nodes().begin(),
-   //        end2 = t2.grouped_nodes().end(); i2 != end2; ++i2) {
-   //   cout << (*i2)->id_string() << endl;
-   //}
-
-   // Sorted so that the 'shallowly-same' nodes are together.
-   // What's shallowly-same mean?
+   // Sorted so that the same-production nodes are together.
    Sentence::Nodes::const_iterator i1 = t1.grouped_nodes().begin(),
       end1 = t1.grouped_nodes().end();
    Sentence::Nodes::const_iterator i2 = t2.grouped_nodes().begin(),
@@ -173,7 +161,7 @@ NodePairs find_non_zero_delta_pairs(
    return node_pairs;
 }
 
-/// See Alexandro Moschitti, "Making Tree Kernels Practical for
+/// See Alessandro Moschitti, "Making Tree Kernels Practical for
 ///   Natural Language Learning" (2006)
 /// With sigma = 0, this calculates the subtree (ST) kernel (always
 ///   includes all the way down to the leaves)
