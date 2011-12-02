@@ -1,4 +1,4 @@
-A C++ implementation of tree kernels per Alessandro Moschitti's 2006
+A C++ implementation of nlp tree kernels per Alessandro Moschitti's 2006
 paper, "Making Tree Kernels Practical for Natural Language Learning"
 
 This is incomplete as-is, it needs something called 'Tree' to parse from
