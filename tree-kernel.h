@@ -1,9 +1,7 @@
 #ifndef TREE_KERNEL_H
 #define TREE_KERNEL_H
 
-/* Sorry for the boilerplate - I understand you can be sued if you don't
-   disclaim warranty.
-
+/*
    BSD 2-clause license ("Simplified BSD License" or "FreeBSD License")
 
   Copyright 2011 Jeff Donner. All rights reserved.
