@@ -1,0 +1,141 @@
+/* Sorry for the boilerplate - I understand you can be sued if you don't
+   disclaim warranty.
+
+   BSD 2-clause license ("Simplified BSD License" or "FreeBSD License")
+
+  Copyright 2011 Jeff Donner. All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+   1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY Jeff Donner ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Jeff Donner OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation
+are those of the authors and should not be interpreted as representing
+official policies, either expressed or implied of Jeff Donner.
+*/
+
+#include <string>
+#include "tree_parser.h"
+#include "tree-kernel.h"
+#include "sentence.h"
+
+using namespace std;
+
+// g++ -g .objs/node.o .objs/sentence.o .objs/tree-kernel.o .objs/test-tree-kernel.o -L../tree-parser -ltree_parser -o test-tree-kernel
+
+string g_real =
+   "(ROOT (S (VP (MD Must) (VP (VB have) (NP (NN java)))) (. .)))";
+
+// oversimple parse
+string g_dog_eat_dog =
+"(S"
+"  (NN dog)"
+"  (VBP eat)"
+"  (NN dog))";
+
+// oversimple parse
+string g_dog_eat_fish =
+"(S"
+"  (NN dog)"
+"  (VBP eat)"
+"  (NN fish))";
+
+string g_brought_a_cat =
+" (VP (V brought)"
+"     (NP (D a)"
+"         (N cat)))"
+   ;
+
+Tree const* make_tree(string const& tree_text)
+{
+   TreeLexer lexer(tree_text);
+   TreeParser parser(lexer);
+   Tree const* t = 0;
+   try {
+      t = parser.match_and_eat_tree();
+   }
+   catch (string& ex) {
+      cout << "failed parse: " << ex << endl;
+   }
+
+//   t->print_nice(cout, 0);
+
+   return t;
+}
+
+double kernel_value(string one, string two, bool want_sst_not_st)
+{
+   Tree const* t1 = make_tree(one);
+   Tree const* t2 = make_tree(two);
+
+   cout << "s1" << endl;
+   Sentence s1(t1);
+   cout << "s2" << endl;
+   Sentence s2(t2);
+
+   // sigma == 1 is SSTs (fragments)
+   // sigma == 0 is STs (whole sub-trees, down to leaves)
+   int sigma = want_sst_not_st ? 1 : 0;
+   double value = kernel_value(s1, s2, sigma);
+   return value;
+}
+
+void test_sst(string test_name, string one, string two, double expected)
+{
+   cout << test_name << endl;
+   double value = kernel_value(one, two, true);
+   if (value != expected) {
+      cout << "failed - got: " << value << " instead of: " << expected << endl;
+   }
+   else
+      cout << " ok" << endl;
+}
+
+void test_st(string test_name, string one, string two, double expected)
+{
+   cout << test_name << endl;
+   double value = kernel_value(one, two, false);
+   if (value != expected) {
+      cout << "failed - got: " << value << " instead of: " << expected << endl;
+   }
+   else
+      cout << " ok" << endl;
+}
+
+
+int main()
+{
+   // re-compute these.. SSTs are like STs, except that you can
+   // 'break a single leg off of' a pre-terminal, and all off of
+   // an ordinary non-terminal (cuz it's really just acting as
+   // a child of its parent's rule). So if you include a production
+   // you must include it all. Pre-terminals only /have/ one 'leg',
+   // so they're included automatically.
+//   test("dogdog v dogfish", g_dog_eat_dog, g_dog_eat_fish, 11);
+//   test("dog v fish^2", g_dog_eat_fish, g_dog_eat_fish, 11);
+//   test("dog v dog", g_dog_eat_dog, g_dog_eat_dog, 13);
+   // directly from the paper
+   test_sst("brought a cat", g_brought_a_cat, g_brought_a_cat, 17);
+   test_st("brought a cat", g_brought_a_cat, g_brought_a_cat, 5);
+
+   return 0;
+}
