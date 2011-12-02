@@ -79,7 +79,8 @@ class Sentence
 public:
    Sentence(std::string const& sentence)
    : text_(sentence)
-   { root_ = parse(sentence); }
+   , root_(parse(sentence))
+   {}
 
    Sentence(Tree const* tree);
 

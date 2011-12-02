@@ -2,12 +2,24 @@ A C++ implementation of tree kernels per Alessandro Moschitti's 2006
 paper, "Making Tree Kernels Practical for Natural Language Learning"
 
 This is incomplete as-is, it needs something called 'Tree' to parse from
-the Penn Treebank form. Ask me for mine if you really want it.
+the Penn Treebank form, eg:
 
-I found no commercially-usable implementations of tree kernels when I
-looked, thus this. I have not yet integrated it with any SVM software,
-libSVM is my top candidate. If you succeed, let me know or better yet,
-offer your patches to libSVM.
+(ROOT
+  (S
+    (NP (PRP$ My) (NN dog))
+    (ADVP (RB also))
+    (VP (VBZ likes)
+      (S
+        (VP (VBG eating)
+          (NP (NN sausage)))))
+    (. .)))
+
+See http://nlp.stanford.edu:8080/parser.
+Ask for my tree parser if you really want it.
+
+This is commercially useable. I have not yet integrated it with any
+SVM software, libSVM is my top candidate. If you succeed, let me know
+or better yet, offer your patches to libSVM.
 
 There are several optimizations possible - templating out sigma,
 making NodePairsDeltaTable an unordered_map, but most of all, storing
