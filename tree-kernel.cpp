@@ -1,4 +1,4 @@
-/* Sorry for the oilerplate - I understand you can be sued if you don't
+/* Sorry for the boilerplate - I understand you can be sued if you don't
    disclaim warranty.
 
    BSD 2-clause license ("Simplified BSD License" or "FreeBSD License")

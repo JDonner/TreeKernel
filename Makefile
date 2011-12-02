@@ -1,5 +1,6 @@
 CXXFLAGS=-Wall -Wextra -Wno-unused-variable
 CXX=g++ -g
+# tree-parser not included - ask jeffrey.donner@gmail.com if you really want it
 INCLUDE=-I/usr/include -I../tree-parser
 LIB_SOURCES=\
 	node.cpp \

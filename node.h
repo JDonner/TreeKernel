@@ -42,7 +42,11 @@ official policies, either expressed or implied of Jeff Donner.
 #include <stdint.h>
 #include <memory.h>
 
-
+// Improvements:
+// * Make the tag types enums; leaf text is never a tag, at least not
+//   the way we implement it here, so it's not a conflict.
+// * 'cache' productions; probably worth it.
+//
 // Both are tree / node....
 class Node
 {
@@ -60,9 +64,11 @@ public:
    /// Typical 3-way comparison
    static int productions_cmp(Node const& one, Node const& two);
 
-   /// Optimized for eq / ne
+   /// Slightly optimized for eq / ne
    static bool productions_equal(Node const* one, Node const* two);
 
+   /// Yes by value. Of course that's not actually the problem, it's
+   /// the content that gets created every time we call this.
    std::string productions() const;
 
    static bool production_is_less(Node const* one, Node const* two);
@@ -82,10 +88,10 @@ public:
    /// tag and production, for debugging
    std::string id_string() const;
 
-   void print_nice(std::ostream& os, int level) const;
+   void pretty_print(std::ostream& os, int level) const;
 
 private:
-   // helper to print_nice
+   // helper to pretty_print
    static void indent(std::ostream& os, int level);
 
 private:
@@ -133,13 +139,14 @@ private:
 
    public:
       // wants to be a union, but std::string has a ctor
-      // &&& Implement these as a Variant, to save memory and cache
-      // pressure. Alexandrescu has one (as does Boost, which Christopher
-      // Diggens claims to have a faster version of).
+      // &&& Implement these as a Variant (or boost::any), to save
+      // memory and cache pressure. Alexandrescu has one (as does
+      // Boost, which Christopher Diggens claims to have a faster version of).
       // http://www.codeproject.com/KB/architecture/union_list.aspx
       //
-      // Meh - not sure we'd get any space saving; node* doubles
-      // as a type tag.
+      // Meh - not sure we'd get any space saving from a discriminated
+      // union; node_* doubles as a type tag (I doubt any valid string
+      // is pure 0).
       std::string tok_;
       Node* node_;
    };

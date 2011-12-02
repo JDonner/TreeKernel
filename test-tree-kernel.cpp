@@ -77,7 +77,7 @@ Tree const* make_tree(string const& tree_text)
       cout << "failed parse: " << ex << endl;
    }
 
-//   t->print_nice(cout, 0);
+//   t->pretty_print(cout, 0);
 
    return t;
 }
@@ -124,17 +124,16 @@ void test_st(string test_name, string one, string two, double expected)
 
 int main()
 {
-   // re-compute these.. SSTs are like STs, except that you can
+   // SSTs are like STs, except that you can
    // 'break a single leg off of' a pre-terminal, and all off of
-   // an ordinary non-terminal (cuz it's really just acting as
+   // an ordinary non-terminal (because it's really just acting as
    // a child of its parent's rule). So if you include a production
    // you must include it all. Pre-terminals only /have/ one 'leg',
    // so they're included automatically.
-//   test("dogdog v dogfish", g_dog_eat_dog, g_dog_eat_fish, 11);
-//   test("dog v fish^2", g_dog_eat_fish, g_dog_eat_fish, 11);
-//   test("dog v dog", g_dog_eat_dog, g_dog_eat_dog, 13);
-   // directly from the paper
+   //
+   // '17' is from the paper
    test_sst("brought a cat", g_brought_a_cat, g_brought_a_cat, 17);
+   // hand-counted; number of non-terminal nodes
    test_st("brought a cat", g_brought_a_cat, g_brought_a_cat, 5);
 
    return 0;

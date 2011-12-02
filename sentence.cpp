@@ -80,7 +80,7 @@ void Sentence::group_nodes()
 std::ostream& operator<<(std::ostream& os, Sentence const& s)
 {
    os << "printing sentence:" << endl;
-   s.root_->print_nice(os, 0);
+   s.root_->pretty_print(os, 0);
    os << "# grouped nodes: " << s.grouped_nodes_.size();
    return os;
 }

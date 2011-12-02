@@ -57,7 +57,6 @@ official policies, either expressed or implied of Jeff Donner.
 //   (. .))
 
 // Never has the term 'massaging the media' seemed so accurate.
-
 // (S
 //   (NP (NNP Never))
 //   (VP (VBZ has)
@@ -71,7 +70,12 @@ official policies, either expressed or implied of Jeff Donner.
 //           (VP (VBD seemed)
 //             (ADJP (RB so) (JJ accurate))))))) (. .))
 
-class Sentence {
+// Improvements:
+// * Put Nodes in-place in a vector, and use indices as pointers.
+// * Templatize that choice.
+
+class Sentence
+{
    friend std::ostream& operator<<(std::ostream& os, Sentence const& s);
 
 public:

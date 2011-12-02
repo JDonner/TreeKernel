@@ -134,7 +134,7 @@ bool Node::production_is_less(Node const* one, Node const* two)
 }
 
 
-void Node::print_nice(std::ostream& os, int level) const
+void Node::pretty_print(std::ostream& os, int level) const
 {
    os << std::endl;
    indent(os, level);
@@ -145,7 +145,7 @@ void Node::print_nice(std::ostream& os, int level) const
       if (it->is_text())
          os << it->text();
       else
-         it->node()->print_nice(os, level+1);
+         it->node()->pretty_print(os, level+1);
    }
 
    os << ')';
