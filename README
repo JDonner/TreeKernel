@@ -1,8 +1,8 @@
 This is incomplete as-is, it needs something called 'Tree' to parse from
 the Penn Treebank form. Ask me for mine if you really want it.
 
-I made this public because there was no commercially-useable
-implementation of tree kernels that I could see. I have not yet
+This is explicitly commercially-useable, I found no such
+implementations of tree kernels when I looked. I have not yet
 integrated it with any SVM software, libSVM is my top candidate. If
 you succeed, let me know or better yet, offer your patches to libSVM.
 
@@ -11,7 +11,7 @@ making NodePairsDeltaTable an unordered_map, but most of all, storing
 the Nodes in Sentence in a vector and using indices as pointers to
 them (to save memory and cache). C bindings would be nice, too.
 
-It's all under the BSD simplified license; -
+It's under the BSD simplified license -
 
   http://en.wikipedia.org/wiki/Bsd_license#2-clause_license_.28.22Simplified_BSD_License.22_or_.22FreeBSD_License.22.29
 
