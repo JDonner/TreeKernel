@@ -1,11 +1,9 @@
-CXXFLAGS=-Wall -Wextra
-CXX=g++ -g
+CXXFLAGS=-O2 -Wall -Wextra
+CXX=g++
 INCLUDE=-I/usr/include
 LIB_SOURCES=\
-	lexer.cpp \
 	token.cpp \
 	tree.cpp \
-	tree_lexer.cpp \
 	tree_parser.cpp
 TEST_SOURCES=test-tree-parser.cpp
 OBJDIR=.objs

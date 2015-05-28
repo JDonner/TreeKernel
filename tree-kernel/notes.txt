@@ -4,7 +4,4 @@ Of course, work out an example by hand (ulp!)
 
 short phrase with a dup: 'a dog eats a dog'? 'a dog ate a dog.'
 
-test against Moschitti's implementation.
-
-Learn how to use SVM.
-
+test against Moschitti's own implementation.

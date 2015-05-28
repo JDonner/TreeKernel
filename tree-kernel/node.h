@@ -55,8 +55,8 @@ public:
    /// Slightly optimized for eq / ne
    static bool productions_equal(Node const* one, Node const* two);
 
-   /// Yes by value. Of course that's not actually the problem, it's
-   /// the content that gets created every time we call this.
+   /// Yes by value (NVRO). Of course that's not actually the problem,
+   /// it's the content that gets created every time we call this.
    std::string productions() const;
 
    static bool production_is_less(Node const* one, Node const* two);

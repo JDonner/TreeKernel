@@ -1,5 +1,6 @@
 #include "tree_parser.h"
 
+using namespace std;
 
 string g_pretty =
 "(ROOT"
@@ -38,7 +39,7 @@ void lex_only(string tree_text, string tree_name)
    TreeLexer lexer(tree_text);
    Token tok = lexer.next_token();
    int x = 0;
-   while (tok.type != TreeLexer::EOF_TYPE and x < 10) {
+   while (tok.type != TreeLexer::EOS_TYPE and x < 10) {
       cout << "[" << tok.text << "] ";
       tok = lexer.next_token();
       ++x;

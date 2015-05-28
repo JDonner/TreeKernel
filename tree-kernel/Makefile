@@ -1,6 +1,5 @@
-CXXFLAGS=-Wall -Wextra
-CXX=g++ -g
-# tree-parser not included - ask jeffrey.donner@gmail.com if you really want it
+CXXFLAGS=-O2 -Wall -Wextra
+CXX=g++
 INCLUDE=-I/usr/include -I../tree-parser
 LIB_SOURCES=\
 	node.cpp \
@@ -32,7 +31,6 @@ $(OBJDIR)/%.o: %.cpp $(OBJDIR)
 $(LIB_TARGET): $(LIB_OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
-# don't need this: RPATH=$(BOOST_LIBDIR)
 $(TEST_TARGET): $(LIB_OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(LIB_OBJECTS) $(TEST_OBJECTS) -L$(LIBSDIR) -l$(LIBS) -o $@
 

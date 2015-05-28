@@ -10,14 +10,13 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
 
-#include "lexer.h"
-#include <string>
 #include <cassert>
+#include <cctype>
+#include <iosfwd>
 #include <sstream>
-#include <ctype.h>
+#include <string>
 
-#include <iostream>
-using namespace std;
+#include "lexer.h"
 
 
 class TreeLexer : public Lexer
@@ -25,7 +24,7 @@ class TreeLexer : public Lexer
 public:
    enum {
       ERROR_TYPE =-1,
-      // EOF_TYPE defined in Lexer
+      // EOS_TYPE defined in Lexer
       NAME       = 1,
       LPAREN     = 2,
       RPAREN     = 3,
@@ -46,7 +45,7 @@ public:
 
    virtual Token next_token() {
 //      cout << "lexer::next_token c:[" << this->c << "]" << endl;
-      while ( this->c != Lexer::EOF ) {
+      while ( this->c != Lexer::EOS ) {
          if (isspace(this->c)) {
             this->WS();
             continue;
@@ -56,16 +55,16 @@ public:
          case '(' : consume(); return Token(LPAREN, "(");
          case ')' : consume(); return Token(RPAREN, ")");
          default:
-            if ( isLETTER() )
+           if ( isLETTER() ) {
                return name();
-            else {
+           } else {
                std::ostringstream oss;
                oss << "invalid character: [" << this->c << "]";
                throw oss.str();
-            }
+           }
          }
       }
-      return Token(EOF_TYPE, "<EOF>");
+      return Token(EOS_TYPE, "<EOS>");
    }
 
    /** NAME : LETTER+ ; // NAME is sequence of >=1 letter */
@@ -83,7 +82,7 @@ public:
 
    /** LETTER   : 'a'..'z'|'A'..'Z'; // define what a letter is (\w) */
    void letter() {
-      if ( isLETTER() )
+      if (isLETTER())
          consume();
       else {
          std::ostringstream oss;

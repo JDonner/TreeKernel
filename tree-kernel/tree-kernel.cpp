@@ -21,19 +21,22 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "node.h"
-#include "tree-kernel.h"
-
-#include <map>
 #include <cassert>
+#include <map>
 #include <iostream>
+
+#include "node.h"
 #include "sentence.h"
+#include "tree-kernel.h"
 
 using namespace std;
 
 typedef std::pair<Node const*, Node const*> NodePair;
 typedef std::vector<NodePair> NodePairs;
 
+// Per this:
+//   http://stackoverflow.com/questions/21166675/boostflat-map-and-its-performance-compared-to-map-and-unordered-map
+// unordered_map isn't much faster than map, so I'll leave this!
 typedef std::map<NodePair, double> NodePairsDeltaTable;
 
 static
@@ -69,8 +72,7 @@ double get_delta(NodePairsDeltaTable& delta_table,
          // part-of-speech by doing this...
          // wait a minute - 'include_leaves' is done ahead of time..
          ref_delta = preterminal_leaves_value(include_leaves, lambda);
-      }
-      else {
+      } else {
          ref_delta = lambda;
          Node::Nodes n1_children = n1->children();
          Node::Nodes n2_children = n2->children();
@@ -98,7 +100,7 @@ NodePairs find_non_zero_delta_pairs(
    double decay_lambda)
 {
    // These want to be topologically sorted, but it's too expensive,
-   // as we do them pair-by-pair; we can't pre-do it.
+   // as we do them pair-by-pair; doing it ahead of time is pointless.
    NodePairs node_pairs;
 
    // Sorted so that the same-production nodes are together.
@@ -111,12 +113,10 @@ NodePairs find_non_zero_delta_pairs(
       int cmp = Node::productions_cmp(**i1, **i2);
       if (0 < cmp) {
          ++i2;
-      }
-      else if (cmp < 0) {
+      } else if (cmp < 0) {
          ++i1;
-      }
+      } else {
       // they're equal; the interesting part
-      else {
          Sentence::Nodes::const_iterator run2_start = i2;
          Node const* n1 = *i1;
          Node const* n2 = *i2;
@@ -146,7 +146,6 @@ NodePairs find_non_zero_delta_pairs(
    // /pair/ and so can't be done ahead of time. Although, if we
    // sorted them topo-wise /per tree/ ahead of time, maybe it'd
    // make the pairwise topo-sort fast enough to be worth it. Hmmm.
-   // Still,
    return node_pairs;
 }
 
@@ -173,7 +172,8 @@ double kernel_value(Sentence const& t1, Sentence const& t2,
         it != end; ++it) {
       Node const* n1 = it->first;
       Node const* n2 = it->second;
-      double delta = get_delta(delta_table, n1, n2, sigma, include_leaves, decay_lambda);
+      double delta = get_delta(delta_table, n1, n2, sigma,
+                               include_leaves, decay_lambda);
       kernel += delta;
    }
 
