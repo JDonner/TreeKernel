@@ -32,16 +32,19 @@ Feel free to integrate it yourself, I'd love to hear about it if you
 do.
 
 Building
-========
+--------
 
-Build tree-parser before tree-kernel, as tree-kernel uses
-tree-parser. tree-kernel relies on the current directory structure,
-though that should be easy enough to change. This is GNU Makefile, and
-GCC based, but nothing is too complicated and it should be easily
-tweakable for other systems.
+This is GNU Makefile, and GCC based, but nothing is OS-dependent so it
+should be easily tweakable for other systems.
+
+    cd tree-parser
+    make
+
+    cd ../tree-kernel
+    make
 
 TODO
-====
+----
 
 There are several optimizations possible - templating out sigma,
 making NodePairsDeltaTable an unordered_map, but most of all, storing
