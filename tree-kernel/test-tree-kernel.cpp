@@ -109,6 +109,19 @@ void test_st(string test_name, string one, string two, double expected)
       cout << " ok" << endl;
 }
 
+/* Yo - to test better, we need more sub-tree'd sentences.
+
+   def generate_all_connected_subtrees(node, path-so-far):
+       generate powerset of all children of node
+       with the empty subset, add path-so-far as a complete subtree
+
+       generate_all_connected_subtrees(child, path-so-far + child)
+
+   def generate all subtrees(root):
+       for node in all root:
+           generate_all)connected_subtrees(node, null)
+
+ */
 
 int main()
 {
