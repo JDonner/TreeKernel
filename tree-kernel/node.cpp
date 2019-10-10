@@ -4,7 +4,7 @@
 #include <sstream>
 
 /*
-Copyright (c) 2011,2015 Jeff Donner
+Copyright (c) 2011,2015,2019 Jeff Donner
 
     Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation files
@@ -116,7 +116,9 @@ bool Node::production_is_less(Node const* one, Node const* two)
            i2 = two->children_.begin(), e2 = two->children_.end();
         i1 != e1 and i2 != e2; ++i1, ++i2) {
       int cmp = Child::production_component_cmp(*i1, *i2);
-      return cmp < 0;
+      if (cmp != 0) {
+        return cmp < 0;
+      }
    }
    return ((int)one->children_.size() - (int)two->children_.size()) < 0;
 }
